@@ -1146,15 +1146,21 @@ public class AdminServiceImpl implements AdminService {
   }
 
   @Override
+  public long saveClientRequestEntity(ClientRequestEntity entity) {
+    em.persist(entity);
+    return entity.getId();
+  }
+
+  @Override
   public ClientRequestEntity getClientRequestEntity(long id) {
-    return em.getReference(ClientRequestEntity.class, id);
+    return em.find(ClientRequestEntity.class, id);
   }
 
   @Override
   public <T> T withEmployee(final long orgId, final String login, final Function<Employee, T> callback) {
     final Employee employee = em
       .createQuery("select e from Employee e where e.login=:login and e.organization.id=:orgId",
-        Employee.class).setParameter("login", login).setParameter("orgId", orgId).getSingleResult();
+          Employee.class).setParameter("login", login).setParameter("orgId", orgId).getSingleResult();
     return callback.apply(employee);
   }
 
@@ -1577,7 +1583,7 @@ public class AdminServiceImpl implements AdminService {
     if (enclosures != null && !enclosures.isEmpty()) {
 
       // сбросить изменения
-      Context.getCommandContext().getDbSqlSession().flush();
+//      Context.getCommandContext().getDbSqlSession().flush();
 
       for (Enclosure enclosure : enclosures) {
         if (enclosure.content == null || StringUtils.isEmpty(enclosure.zipPath)) {
@@ -1633,12 +1639,21 @@ public class AdminServiceImpl implements AdminService {
   public int countOfServerResponseByBidIdAndStatus(long bidId, String status) {
     return em
       .createQuery(
-        "select count(e) from ServiceResponseEntity e where e.bid.id =:bidId and e.status=:status",
-        Number.class
+          "select count(e) from ServiceResponseEntity e where e.bid.id =:bidId and e.status=:status",
+          Number.class
       )
       .setParameter("bidId", bidId)
       .setParameter("status", status)
       .getSingleResult().intValue();
+  }
+
+  @Override
+  public ServiceResponseEntity getServerResponseEntity(long bidId, String status) {
+    final List<ServiceResponseEntity> entities = em.createQuery("select e from ServiceResponseEntity e where e.bid.id =:bidId and e.status=:status", ServiceResponseEntity.class)
+        .setParameter("bidId", bidId)
+        .setParameter("status", status)
+        .getResultList();
+    return entities != null && entities.size() > 0 ? entities.get(0) : null;
   }
 
   /**

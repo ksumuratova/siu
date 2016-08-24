@@ -40,6 +40,7 @@ final class VisibilityToggle implements Serializable {
       if (it == null) {
         continue;
       }
+      it.setVisible(isVisible);
       final List<FieldTree.Entry> targets = form.fieldTree.getEntries(it.getId());
       for (FieldTree.Entry target : targets) {
         // на одном уровне
@@ -63,6 +64,7 @@ final class VisibilityToggle implements Serializable {
               form.gridLayout.removeRow(index);
             }
             target.hidden = true;
+            form.removeItemProperty(target.path);
             form.fieldTree.updateColumnIndex();
             form.updateExpandRatios();
           } else if (isVisible && !form.isAttachedField(target)) {

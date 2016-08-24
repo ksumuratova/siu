@@ -18,7 +18,7 @@
     </parent>
 
     <artifactId>web-client</artifactId>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
     <packaging>bundle</packaging>
     <name>GSES Web Interface</name>
 
@@ -46,13 +46,13 @@
         <dependency>
             <groupId>ru.codeinside</groupId>
             <artifactId>gses-vaadin</artifactId>
-            <version>6.8.14.1</version>
+            <version>6.8.14.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>ru.codeinside</groupId>
             <artifactId>gws-api</artifactId>
-            <version>1.0.10</version>
+            <version>1.0.11</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>ru.codeinside</groupId>
             <artifactId>gws-core</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -337,6 +337,7 @@
                             com.sun.xml.ws.util.localization,
                             org.jvnet.ws.message,
                             com.sun.xml.ws.resources,
+                            com.sun.org.apache.xerces.internal.parsers,
 
 
                             sun.misc,

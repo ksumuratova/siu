@@ -180,6 +180,8 @@ public interface AdminService {
 
   int getEmpGroupMembersCount(String groupName, String taskId);
 
+  long saveClientRequestEntity(ClientRequestEntity entity);
+
   ClientRequestEntity getClientRequestEntity(long id);
 
   public void createLog(Actor actor,
@@ -205,6 +207,8 @@ public interface AdminService {
   void saveServiceResponse(ServiceResponseEntity response, List<Enclosure> enclosures, Map<Enclosure, String[]> usedEnclosures);
 
   int countOfServerResponseByBidIdAndStatus(long bid, String status);
+
+  ServiceResponseEntity getServerResponseEntity(long bidId, String status);
 
   ServerResponse getServerResponseByBidIdAndStatus(long bid1, long bid, String status);
 
