@@ -19,10 +19,12 @@ DATABASES="gws"
 
 # в порядке удаления
 COMPONENTS="
-web-client-1.1.3
 web-client-1.1.4
-gses-vaadin-6.8.14
+web-client-1.1.5
 gses-vaadin-6.8.14.1
+gses-vaadin-6.8.14.2
+gws-xml-normalizer-1.0.0
+gws-xml-signature-injector-1.0.0
 gses-form-docx-1.0.0
 gses-form-docx-1.0.1
 gses-form-1.0.0
@@ -45,8 +47,10 @@ gws-client-rr-3564-1.0.2
 gws-s-oep-dict-1.0.1
 gws-s-oep-dict-1.0.2
 gws-s-mcsv-1002-1.0.1
-gws-crypto-cryptopro-1.0.2
+gws-xml-noralizer-1.0.0
+gws-xml-signature-injector-1.0.0
 gws-crypto-cryptopro-1.0.3
+gws-crypto-cryptopro-1.0.4
 gws-p-router-1.0.5
 gws-p-router-1.0.6
 gws-p-adapter-1.0.3
@@ -54,20 +58,20 @@ gws-p-adapter-1.0.4
 gws-log-1.0.3
 gws-wsdl-1.0.3
 gws-wsdl-1.1.0
-gws-core-1.1.0
 gws-core-1.1.1
+gws-core-1.1.2
 gws-log-format-1.0.0
-gws-api-1.0.9
 gws-api-1.0.10
+gws-api-1.0.11
 gws-api-1.1.0
 "
 
 # в порядке установки
 OSGI="
-gws-api-1.0.10
+gws-api-1.0.11
 gws-wsdl-1.1.0
-gws-core-1.1.1
-gws-crypto-cryptopro-1.0.3
+gws-core-1.1.2
+gws-crypto-cryptopro-1.0.4
 gws-log-format-1.0.0
 gws-log-1.0.3
 gws-client-fss-1.0.2
@@ -86,8 +90,10 @@ gws-c-oep-declarer-1.0.6
 gws-s-mcsv-1002-1.0.1
 gses-form-1.0.1
 gses-form-docx-1.0.1
-gses-vaadin-6.8.14.1
-web-client-1.1.4
+gws-xml-normalizer-1.0.0
+gws-xml-signature-injector-1.0.0
+gses-vaadin-6.8.14.2
+web-client-1.1.5
 "
 
 WAR=""

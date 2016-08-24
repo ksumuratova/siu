@@ -76,6 +76,7 @@ final public class TaskForm extends VerticalLayout implements WithTaskId {
   private final ImmutableList<FormSeq> flow;
   private final FormFlow formFlow;
   private final CloseListener closeListener;
+  private final DataAccumulator accumulator;
 
   final Wizard wizard;
 
@@ -91,11 +92,12 @@ final public class TaskForm extends VerticalLayout implements WithTaskId {
 
   Component mainContent;
 
-  public TaskForm(final FormDescription formDesc, final CloseListener closeListener) {
+  public TaskForm(final FormDescription formDesc, final CloseListener closeListener, final DataAccumulator accumulator) {
     this.closeListener = closeListener;
     flow = formDesc.flow;
     id = formDesc.id;
     formFlow = new FormFlow(id);
+    this.accumulator = accumulator;
 
     header = new HorizontalLayout();
     header.setWidth(100, UNITS_PERCENTAGE);
@@ -198,7 +200,7 @@ final public class TaskForm extends VerticalLayout implements WithTaskId {
       addLabel(labels, formDesc.task.getDescription(), null);
     }
 
-    wizard = new Wizard();
+    wizard = new Wizard(accumulator);
     wizard.setImmediate(true);
     wizard.addListener(new ProgressActions());
     for (FormSeq seq : flow) {
@@ -242,10 +244,10 @@ final public class TaskForm extends VerticalLayout implements WithTaskId {
       final BidID bidID;
       if (id.taskId == null) {
         processed = true;
-        bidID = Functions.withEngine(new StartTaskFormSubmiter(id.processDefinitionId, formFlow.getForms()));
+        bidID = Functions.withEngine(new StartTaskFormSubmitter(id.processDefinitionId, formFlow.getForms(), accumulator));
       } else {
         bidID = null;
-        processed = Functions.withEngine(new TaskFormSubmiter(id.taskId, formFlow.getForms()));
+        processed = Functions.withEngine(new TaskFormSubmitter(id.taskId, formFlow.getForms(), accumulator));
       }
       Flash.fire(new TaskChanged(this, id.taskId));
       if (!processed) {

@@ -24,7 +24,6 @@ import ru.codeinside.gses.activiti.forms.api.definitions.PropertyNode;
 import ru.codeinside.gses.activiti.forms.api.definitions.PropertyTree;
 import ru.codeinside.gses.activiti.forms.api.definitions.PropertyType;
 import ru.codeinside.gses.activiti.forms.api.definitions.ToggleNode;
-import ru.codeinside.gses.activiti.forms.api.definitions.VariableType;
 import ru.codeinside.gses.activiti.forms.api.values.Audit;
 import ru.codeinside.gses.activiti.forms.api.values.BlockValue;
 import ru.codeinside.gses.activiti.forms.api.values.FormValue;

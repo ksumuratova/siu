@@ -29,10 +29,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.AttachmentPart;
@@ -344,7 +344,7 @@ final public class Xml {
                 final Enclosure enclosure;
                 if (!attachments.containsKey(zipName)) {
                   enclosure = new Enclosure(zipName, new byte[0]);
-                  enclosures.add(enclosure);
+                  attachments.put(zipName, enclosure);
                   files.add(zipName);
                 } else {
                   enclosure = attachments.get(zipName);
@@ -367,7 +367,8 @@ final public class Xml {
             Enclosure sig = attachments.get(pkcs7File);
             enclosure.signature = cryptoProvider.fromPkcs7(sig.content);
             if (!cryptoProvider.validate(enclosure.signature, enclosure.digest, enclosure.content)) {
-              enclosure.signature = enclosure.signature.toInvalid();
+              if (enclosure.signature != null)
+            	  enclosure.signature = enclosure.signature.toInvalid();
             }
           }
         }
@@ -434,9 +435,16 @@ final public class Xml {
     if (hasAppData || hasEnclosures) {
       final SOAPElement messageData = action.addChildElement("MessageData", "smev");
       if (hasAppData) {
-        messageData
-          .addChildElement("AppData", "smev")
-          .appendChild(Xml.parseXml(part, appData));
+        if (appData.contains("AppData>")) {
+          appData = appData.replaceAll("<AppData Id=\"AppData\">", "").replaceAll("</AppData>", "");
+          messageData
+              .addChildElement("AppData", "smev").addAttribute(new QName("Id"), "AppData")
+              .appendChild(Xml.parseXml(part, appData));
+        } else {
+          messageData
+              .addChildElement("AppData", "smev")
+              .appendChild(Xml.parseXml(part, appData));
+        }
       }
       if (hasEnclosures) {
         final SOAPElement appDocument = messageData.addChildElement("AppDocument", "smev");
@@ -503,7 +511,7 @@ final public class Xml {
       Unmarshaller unmarshaller = ctx.createUnmarshaller();
       Object object = unmarshaller.unmarshal(new ByteArrayInputStream(content));
       if (object instanceof JAXBElement) {
-        object = ((JAXBElement) object).getValue();
+        object = ((JAXBElement<?>) object).getValue();
       }
       return (AppliedDocumentsType) object;
     } catch (JAXBException e) {
